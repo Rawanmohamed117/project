@@ -25,6 +25,21 @@ delay_milli(1);
 SendNumbers();
 delay_milli(500);
 }
+}
+void LCD_init(void){
+SYSCTL_RCGCGPIO_R  |= 0x01; //PORTA clock
+SYSCTL_RCGCGPIO_R  |= 0x02;
+GPIO_PORTA_DIR_R |=0xE0; //PORTA controls RS,E and R/W
+GPIO_PORTA_DEN_R |=0xE0;
+GPIO_PORTB_DIR_R |=0xFF; //PORTB D0-D7
+GPIO_PORTB_DEN_R|=0xFF; //PORTB D0-D7
+
+LCD_Cmd(0x38); //8-bits,2 display lines, 5x7 font
+LCD_Cmd(0x06); //increments automatically
+LCD_Cmd(0x0F); //Turn on display
+LCD_Cmd(0x01); //clear display
+
+}
 
 void LCD_Cmd(unsigned char command)
 {
